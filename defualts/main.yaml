@@ -1,0 +1,7 @@
+---
+
+# Allow role to install OS dependencies.
+packer_install_os_dependencies: false
+
+# Installation directory for Packer.
+packer_install_dir: "{{ ansible_user_dir }}/bin"

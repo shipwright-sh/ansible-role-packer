@@ -1,0 +1,37 @@
+---
+
+- name: Ensure the packer_arch fact is set
+  set_fact:
+    packer_arch: "{{ packer_arch_lookup[ansible_architecture].arch }}"
+  when: packer_arch is not defined
+
+- name: Get the archive path for Terraform
+  set_fact:
+    packer_archive: "packer_{{ packer_version }}_{{ ansible_system | lower }}_{{ platfom_arch }}.zip"
+
+- name: Ensure Terraform archive is downloaded
+  get_url:
+    url: "{{ packer_release_baseurl }}/{{ packer_version }}/packer_{{ packer_version }}_linux_{{ packer_arch }}"
+    dest: "/tmp/packer_{{ packer_version }}.zip"
+    mode: 0600
+
+- name: Ensure packer_install_dir exists
+  file:
+    path: "{{ packer_install_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Ensure packer archive is extracted to installation directory
+  unarchive:
+    src: "/tmp/packer_{{ packer_version }}.zip"
+    dest: "{{ packer_install_dir }}"
+    remote_src: true
+    mode: 0755
+  when: not packer_check_existing.stat.exists
+        or (packer_check_existing.stat.exists
+            and packer_check_existing_version.stdout_lines[0] != packer_version)
+
+- name: Check that the archive has been extracted correctly
+  stat:
+    path: "{{ packer_install_dir }}/packer"
+  register: packer_check_extracted
