@@ -1,6 +1,6 @@
 ---
 
-terraform_arch_lookup:
+packer_arch_lookup:
   x86:
     arch: 386
   amd64:
