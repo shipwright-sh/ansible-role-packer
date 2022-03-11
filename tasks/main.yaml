@@ -5,13 +5,9 @@
     packer_arch: "{{ packer_arch_lookup[ansible_architecture].arch }}"
   when: packer_arch is not defined
 
-- name: Get the archive path for Terraform
-  set_fact:
-    packer_archive: "packer_{{ packer_version }}_{{ ansible_system | lower }}_{{ packer_arch }}.zip"
-
-- name: Ensure Terraform archive is downloaded
+- name: Ensure Packer archive is downloaded
   get_url:
-    url: "{{ packer_release_baseurl }}/{{ packer_version }}/packer_{{ packer_version }}_linux_{{ packer_arch }}"
+    url: "{{ packer_release_baseurl }}/{{ packer_version }}/packer_{{ packer_version }}_linux_{{ packer_arch }}.zip"
     dest: "/tmp/packer_{{ packer_version }}.zip"
     mode: 0600
 
