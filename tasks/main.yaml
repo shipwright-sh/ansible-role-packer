@@ -7,7 +7,7 @@
 
 - name: Get the archive path for Terraform
   set_fact:
-    packer_archive: "packer_{{ packer_version }}_{{ ansible_system | lower }}_{{ platfom_arch }}.zip"
+    packer_archive: "packer_{{ packer_version }}_{{ ansible_system | lower }}_{{ packer_arch }}.zip"
 
 - name: Ensure Terraform archive is downloaded
   get_url:
