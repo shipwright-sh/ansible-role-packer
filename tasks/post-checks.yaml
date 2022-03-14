@@ -9,7 +9,6 @@
   assert:
     that:
       - packer_check_installed.stat.exists
-      # - packer_check_installed.stat.islnk
     fail_msg: packer was not installed as expected, it is likely something went wrong.
     success_msg: packer has been installed as expected.
 
