@@ -1,5 +1,11 @@
 ---
 
+- import_tasks: pre-checks.yaml
+
+- include_tasks: "{{ ansible_os_family | lower }}/install-os-dependencies.yml"
+  when: packer_install_os_dependencies is defined
+        and packer_install_os_dependencies
+
 - name: Ensure the packer_arch fact is set
   set_fact:
     packer_arch: "{{ packer_arch_lookup[ansible_architecture].arch }}"
@@ -31,3 +37,5 @@
   stat:
     path: "{{ packer_install_dir }}/packer"
   register: packer_check_extracted
+
+- import_tasks: post-checks.yaml
